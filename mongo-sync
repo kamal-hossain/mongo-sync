@@ -133,6 +133,7 @@ function load_configs {
     TUNNEL_CREDENTIALS="$tunnel_access_username@$remote_host_url"
     TUNNEL_PORT=27018
 
+    # In windows: c: > users > user > AppData > Local > Temp > $local_db
     TMPDIR=/tmp/"$local_db"/dump
 }
 
@@ -177,17 +178,13 @@ function pull {
 
     echo "Dumping Remote DB to $TMPDIR... "
     mongodump \
-        -h "$remote_host_url":"$remote_host_port" \
-        -d "$remote_db" \
-        $REMOTE_CREDENTIALS \
+        --uri "$remote_uri" \
         -o "$TMPDIR" > /dev/null
     success_msg
 
     echo "Overwriting Local DB with Dump... "
     mongorestore \
-        --port "$local_host_port" \
-        -d "$local_db" \
-        $LOCAL_CREDENTIALS \
+        --db "$local_db" \
         "$TMPDIR"/"$remote_db" \
         --drop > /dev/null
     success_msg
@@ -223,9 +220,8 @@ function push {
 
     echo "Overwriting Remote DB with Dump... "
     mongorestore \
-        -h "$remote_host_url":"$remote_host_port" \
-        -d "$remote_db" \
-        $REMOTE_CREDENTIALS \
+        --uri "$remote_uri" \
+        --db "$remote_db" \
         "$TMPDIR"/"$local_db" --drop > /dev/null
     success_msg
 

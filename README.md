@@ -1,3 +1,5 @@
+# Updated for mongodb cluster free tier tested in windows 10
+
 [mongo-sync](https://sheharyar.me/blog/sync-mongodb-local-and-production-heroku/)
 =================================================================================
 

@@ -91,7 +91,7 @@ function get_confirmation() {
 function load_configs {
     echo "load_configs"
     if [ -z "$CONFIG_FILE" ] ; then
-        CONFIG_FILE="config.yml"
+        CONFIG_FILE="config_habitat.yml"
     fi
     local config=$CONFIG_FILE
     echo "Parsing '$config'..."
